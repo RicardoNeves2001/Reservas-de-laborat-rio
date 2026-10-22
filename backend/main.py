@@ -1,11 +1,16 @@
+from contextlib import asynccontextmanager
 from typing import Literal
 from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 import database, services
 from models import ReservaEntrada, ReservaAtualizacao, ReservaSaida
 
-database.criar_tabela()
-app=FastAPI(title="Sistema de Reservas de Laboratórios")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    database.criar_tabela()
+    yield
+
+app=FastAPI(title="Sistema de Reservas de Laboratórios", lifespan=lifespan)
 app.add_middleware(CORSMiddleware,allow_origins=["http://localhost:5500","http://127.0.0.1:5500"],allow_methods=["*"],allow_headers=["*"])
 
 @app.get("/api/status")
@@ -22,8 +27,12 @@ def criar(dados:ReservaEntrada):
     except (services.ConflitoReserva,services.ReservaNaoEncontrada) as e: erro(e)
 
 @app.get("/api/reservas",response_model=list[ReservaSaida])
-def listar(status:Literal["confirmada","pendente","cancelada"]|None=None,laboratorio:str|None=None):
-    return services.listar_reservas(status,laboratorio)
+def listar(
+    status_reserva:Literal["confirmada","pendente","cancelada"]|None=None,
+    laboratorio:str|None=None,
+    status:Literal["confirmada","pendente","cancelada"]|None=None,
+):
+    return services.listar_reservas(status_reserva or status,laboratorio)
 
 @app.get("/api/reservas/{reserva_id}",response_model=ReservaSaida)
 def obter(reserva_id:int):

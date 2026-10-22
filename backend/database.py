@@ -1,10 +1,12 @@
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path(__file__).with_name("reservas.db")
+CAMINHO_BANCO = Path(__file__).resolve().with_name("reservas.db")
+
 
 def conectar():
-    conn = sqlite3.connect(DB_PATH, check_same_thread=False)
+    CAMINHO_BANCO.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(CAMINHO_BANCO)
     conn.row_factory = sqlite3.Row
     return conn
 
