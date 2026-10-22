@@ -12,6 +12,7 @@ class ReservaEntrada(BaseModel):
     turno: Turno
     finalidade: str = Field(min_length=3, max_length=200)
     status: Status = "confirmada"
+    quantidade_alunos: int = Field(ge=1, le=40)
 
 class ReservaAtualizacao(ReservaEntrada):
     pass

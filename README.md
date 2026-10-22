@@ -1,3 +1,7 @@
+# Alunos:
+Ricardo da Silva Neves
+Thiago Penetra
+
 # Sistema de Reservas de Laboratórios
 Exemplo didático Full Stack alinhado aos cinco encontros: HTML/CSS → JavaScript/Fetch → HTTP → FastAPI/Pydantic → serviço → SQLite.
 
@@ -22,7 +26,7 @@ Abra `http://localhost:5500` e o Swagger em `http://127.0.0.1:8000/docs`.
 3. `services.py`: CRUD, filtros, SQL e conflito.
 4. `main.py`: endpoints, códigos HTTP e tradução de exceções.
 5. `frontend/app.js`: objeto JS, JSON, Fetch e DOM.
-6. `tests/test_api.py`: 5 cenários de integração.
+6. `tests/test_api.py`: testes de integração, incluindo os limites de quantidade de alunos.
 
-## Exercício
-Adicione `quantidade_de_alunos` (1 a 40) atravessando HTML, JavaScript, Pydantic, SQLite, SQL, contrato e testes.
+## Quantidade de alunos
+O campo `quantidade_alunos` (1 a 40) percorre HTML, JavaScript, Pydantic, SQLite, SQL, contrato e testes.

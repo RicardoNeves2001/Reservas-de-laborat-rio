@@ -18,5 +18,12 @@ def criar_tabela():
           turno TEXT NOT NULL,
           finalidade TEXT NOT NULL,
           status TEXT NOT NULL,
-          data_criacao TEXT NOT NULL
+          data_criacao TEXT NOT NULL,
+          quantidade_alunos INTEGER NOT NULL DEFAULT 1
+            CHECK (quantidade_alunos BETWEEN 1 AND 40)
         )""")
+        columns = {row["name"] for row in conn.execute("PRAGMA table_info(reservas)")}
+        if "quantidade_alunos" not in columns:
+            conn.execute("""ALTER TABLE reservas
+              ADD COLUMN quantidade_alunos INTEGER NOT NULL DEFAULT 1
+              CHECK (quantidade_alunos BETWEEN 1 AND 40)""")
